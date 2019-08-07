@@ -1,10 +1,14 @@
 import discord
 import MCRcon.mcrcon as mcrcon
-import socket
-import json
+import socket, json, os, shutil
 
-with open('config.json') as file:
-    config = json.load(file)
+if os.path.exists('config.json'):
+    with open('config.json') as file:
+        config = json.load(file)
+else:
+    shutil.copy('config.json.template', 'config.json')
+    print("No configuration detected. Please, edit config.json and run this program again.")
+    exit()
 
 bot = discord.Client()
 
