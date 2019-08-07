@@ -56,7 +56,7 @@ async def on_ready():
                 print(f"{time}-{messageType}-{content}")
                 if parseChatMessage(messageType, content):
                     nick, message = parseChatMessage(messageType, content)
-                    await bot.get_channel(config["minecraftToDiscordChannel"]).send(f"<{nick}> {message}")
+                    await bot.get_channel(config["minecraftToDiscordChannels"][0]).send(f"<{nick}> {message}")
 
 @bot.event
 async def on_message(message):
