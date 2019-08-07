@@ -1,4 +1,5 @@
 import discord
+from discord.ext import tasks
 import MCRcon.mcrcon as mcrcon
 import socket, json, os, shutil
 
@@ -15,6 +16,8 @@ bot = discord.Client()
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((config['rcon']['IP'], config['rcon']['port']))
 mcrcon.login(sock, config['rcon']['password'])
+
+lastMessage = None
 
 def toMinecraft(message):
     command = """tellraw @a ["",{"text":"["},{"text":"%s","color":"dark_aqua"},{"text":" | "},{"text":"#%s","color":"dark_aqua"},{"text":"] %s"}]""" % (message.author.display_name, message.channel.name, message.content)
@@ -43,21 +46,24 @@ def parseChatMessage(messageType, content):
     message = content[rNick + 2:]
     return nick, message
 
+@tasks.loop()
+async def toDiscord():
+    global lastMessage
+    with open(config['minecraftLog']) as logfile:
+        lastLine = list(logfile)[-1]
+        if lastMessage != lastLine:
+            lastMessage = lastLine
+            time, messageType, content = parseLogLine(lastLine)
+            print(f"{time}-{messageType}-{content}")
+            if parseChatMessage(messageType, content):
+                nick, message = parseChatMessage(messageType, content)
+                for channelID in config["minecraftToDiscordChannels"]:
+                    await bot.get_channel(channelID).send(f"<{nick}> {message}")
+
 @bot.event
 async def on_ready():
     print(f'MineCord logged in as {bot.user}.')
-    lastMessage = None
-    while True:
-        with open(config['minecraftLog']) as logfile:
-            lastLine = list(logfile)[-1]
-            if lastMessage != lastLine:
-                lastMessage = lastLine
-                time, messageType, content = parseLogLine(lastLine)
-                print(f"{time}-{messageType}-{content}")
-                if parseChatMessage(messageType, content):
-                    nick, message = parseChatMessage(messageType, content)
-                    for channelID in config["minecraftToDiscordChannels"]:
-                        await bot.get_channel(channelID).send(f"<{nick}> {message}")
+    toDiscord.start()
 
 @bot.event
 async def on_message(message):
