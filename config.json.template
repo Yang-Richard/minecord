@@ -1,0 +1,11 @@
+{
+    "rcon": {
+        "IP": "localhost",
+        "port": 25575,
+        "password": "rcon password"
+    },
+    "key": "bot key",
+    "discordToMinecraftChannels": [],
+    "minecraftToDiscordChannels": [],
+    "minecraftLog": "/path/to/server/logs/latest.log"
+}
