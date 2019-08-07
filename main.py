@@ -54,7 +54,6 @@ async def toDiscord():
         if lastMessage != lastLine:
             lastMessage = lastLine
             time, messageType, content = parseLogLine(lastLine)
-            print(f"{time}-{messageType}-{content}")
             if parseChatMessage(messageType, content):
                 nick, message = parseChatMessage(messageType, content)
                 for channelID in config["minecraftToDiscordChannels"]:
