@@ -1,5 +1,5 @@
 import discord
-import MCRcon.mcrcon
+import MCRcon.mcrcon as mcrcon
 import socket
 import json
 
