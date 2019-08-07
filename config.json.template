@@ -7,5 +7,9 @@
     "key": "bot key",
     "discordToMinecraftChannels": [],
     "minecraftToDiscordChannels": [],
-    "minecraftLog": "/path/to/server/logs/latest.log"
+    "minecraftLog": "/path/to/server/logs/latest.log",
+    "messageFormat": {
+        "minecraftToDiscord": "**<{player}>** {message}",
+        "discordToMinecraft": "[%dark_aqua%{user}%reset%|%dark_aqua%#{channel}%reset%] {message}"
+    }
 }
