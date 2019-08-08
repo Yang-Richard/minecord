@@ -20,7 +20,10 @@ mcrcon.login(sock, config['rcon']['password'])
 lastMessage = None
 
 def toMinecraft(message):
-    command = """tellraw @a ["",{"text":"["},{"text":"%s","color":"dark_aqua"},{"text":" | "},{"text":"#%s","color":"dark_aqua"},{"text":"] %s"}]""" % (message.author.display_name, message.channel.name, message.clean_content)
+    messageText = message.clean_content
+    for attachment in message.attachments:
+        messageText += f" {attachment.url}"
+    command = """tellraw @a ["",{"text":"["},{"text":"%s","color":"dark_aqua"},{"text":" | "},{"text":"#%s","color":"dark_aqua"},{"text":"] %s"}]""" % (message.author.display_name, message.channel.name, messageText)
     mcrcon.command(sock, command)
 
 def parseLogLine(line):
