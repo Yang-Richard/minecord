@@ -75,6 +75,8 @@ async def on_message(message):
         return
     if message.channel.id in config["discordToMinecraftChannels"]:
         toMinecraft(message)
+    if message.channel.id == config['servers'][0]['consoleChannel']:
+        mcrcon.command(sock, message.content)
     if message.content == "mc!status":
         query = server.query()
         motd = re.sub("§\w", "", query.motd)
