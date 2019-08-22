@@ -15,5 +15,5 @@
     ],
     "key": "bot key",
     "discordToMinecraftChannels": [],
-    "minecraftToDiscordChannels": [],
+    "minecraftToDiscordChannels": []
 }
