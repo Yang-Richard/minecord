@@ -51,7 +51,7 @@ def parseChatMessage(messageType, content):
 @tasks.loop()
 async def toDiscord():
     global lastMessage
-    with open(config['minecraftLog']) as logfile:
+    with open(config['servers'][0]['log']) as logfile:
         lastLine = list(logfile)[-1]
         if lastMessage != lastLine:
             lastMessage = lastLine
