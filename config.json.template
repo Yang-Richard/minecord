@@ -10,7 +10,7 @@
             },
             "query": 25565
         ]
-    }
+    },
     "key": "bot key",
     "discordToMinecraftChannels": [],
     "minecraftToDiscordChannels": [],
