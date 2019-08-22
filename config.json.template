@@ -2,7 +2,7 @@
     "servers": {
         [
             "name": "Minecraft Server",
-            "IP": "localhost"
+            "IP": "localhost",
             "port": 25565,
             "rcon": {
                 "port": 25575,
