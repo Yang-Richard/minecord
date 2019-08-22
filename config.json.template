@@ -1,9 +1,16 @@
 {
-    "rcon": {
-        "IP": "localhost",
-        "port": 25575,
-        "password": "rcon password"
-    },
+    "servers": {
+        [
+            "name": "Minecraft Server",
+            "IP": "localhost"
+            "port": 25565,
+            "rcon": {
+                "port": 25575,
+                "password": "rconpassword"
+            },
+            "query": 25565
+        ]
+    }
     "key": "bot key",
     "discordToMinecraftChannels": [],
     "minecraftToDiscordChannels": [],
