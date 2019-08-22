@@ -8,11 +8,11 @@
                 "port": 25575,
                 "password": "rconpassword"
             },
-            "query": 25565
+            "query": 25565,
+            "log": "/path/to/server/logs/latest.log"
         }
     ],
     "key": "bot key",
     "discordToMinecraftChannels": [],
     "minecraftToDiscordChannels": [],
-    "minecraftLog": "/path/to/server/logs/latest.log"
 }
