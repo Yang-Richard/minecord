@@ -13,7 +13,7 @@ else:
     exit()
 
 bot = discord.Client()
-server = MinecraftServer.lookup(f"{config['servers'][0]['IP']}:{config['servers'][0]['query']['port']}")
+server = MinecraftServer.lookup(f"{config['servers'][0]['IP']}:{config['servers'][0]['query']}")
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((config['servers'][0]['IP'], config['servers'][0]['rcon']['port']))
