@@ -43,12 +43,9 @@ def parseLogLine(line):
 def parseChatMessage(messageType, content):
     if messageType != "Server thread/INFO":
         return False
-    lNick = content.find('<')
-    if lNick == -1:
-        return False
-    rNick = content.find('>')
-    nick = content[lNick + 1:rNick]
-    message = content[rNick + 2:]
+    match = re.search("(?<=<)(.*)(?=>)", content)
+    nick = match.group()
+    message = content[match.end() + 2:]
     return nick, message
 
 @tasks.loop()
