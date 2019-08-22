@@ -76,7 +76,9 @@ async def on_message(message):
     if message.channel.id in config["discordToMinecraftChannels"]:
         toMinecraft(message)
     if message.content == "mc!status":
-        message.channel.send(str(server.query))
+        query = server.query()
+        ping = server.ping()
+        await message.channel.send(f"{query.players.online}/{query.players.max} {query.players.names} {ping} {query.motd} {query.map} {query.software.version} {query.software.plugins}")
 
 bot.run(config["key"])
 sock.close()
