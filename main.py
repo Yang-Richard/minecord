@@ -1,7 +1,7 @@
 import discord
 from discord.ext import tasks
 import MCRcon.mcrcon as mcrcon
-import socket, json, os, shutil
+import socket, json, os, shutil, re
 from mcstatus import MinecraftServer
 
 if os.path.exists('config.json'):
@@ -77,8 +77,21 @@ async def on_message(message):
         toMinecraft(message)
     if message.content == "mc!status":
         query = server.query()
-        ping = server.ping()
-        await message.channel.send(f"{query.players.online}/{query.players.max} {query.players.names} {ping} {query.motd} {query.map} {query.software.version} {query.software.plugins}")
+        motd = re.sub("§\w", "", query.motd)
+        players = query.players.names
+        playersStr = ""
+        for player in players:
+            playersStr += player
+            if not player == players[len(players) - 1]:
+                playersStr += ", "
+        statusMessage = f"""**{motd}**
+
+        **Player count:** {query.players.online}/{query.players.max}
+        **Players**: {playersStr}
+        **Version:**: {query.software.version}
+        **World**: {query.map}
+        **Ping:** {server.ping()}"""
+        await message.channel.send(embed = discord.Embed(title = "Minecraft Server", description = statusMessage))
 
 bot.run(config["key"])
 sock.close()
