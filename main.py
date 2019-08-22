@@ -2,6 +2,7 @@ import discord
 from discord.ext import tasks
 import MCRcon.mcrcon as mcrcon
 import socket, json, os, shutil
+from mcstatus import MinecraftServer
 
 if os.path.exists('config.json'):
     with open('config.json') as file:
@@ -12,6 +13,7 @@ else:
     exit()
 
 bot = discord.Client()
+server = MinecraftServer.lookup("localhost:25565")
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((config['rcon']['IP'], config['rcon']['port']))
@@ -73,6 +75,8 @@ async def on_message(message):
         return
     if message.channel.id in config["discordToMinecraftChannels"]:
         toMinecraft(message)
+    if message.content == "mc!status":
+        message.channel.send(str(server.query))
 
 bot.run(config["key"])
 sock.close()
