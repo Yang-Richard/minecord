@@ -55,6 +55,9 @@ async def toDiscord():
         lastLine = list(logfile)[-1]
         if lastMessage != lastLine:
             lastMessage = lastLine
+            consoleChannel = config['servers'][0]['consoleChannel']
+            if consoleChannel != -1:
+                await bot.get_channel(consoleChannel).send(lastLine)
             time, messageType, content = parseLogLine(lastLine)
             if parseChatMessage(messageType, content):
                 nick, message = parseChatMessage(messageType, content)
