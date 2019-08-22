@@ -90,7 +90,7 @@ async def on_message(message):
         **Players**: {playersStr}
         **Version:**: {query.software.version}
         **World**: {query.map}
-        **Ping:** {server.ping()}"""
+        **Ping:** {server.ping()}ms"""
         await message.channel.send(embed = discord.Embed(title = "Minecraft Server", description = statusMessage))
 
 bot.run(config["key"])
