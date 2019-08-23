@@ -23,6 +23,10 @@ lastMessage = None
 
 def toMinecraft(message):
     messageText = message.clean_content
+    customEmoji = re.compile("<:.*:\d*>")
+    emojiName = re.compile(":(?<=:)(.*)(?=:):")
+    for emoji in customEmoji.findall(messageText):
+        messageText = messageText.replace(emoji, emojiName.search(emoji).group())
     for attachment in message.attachments:
         messageText += f" {attachment.url}"
     command = """tellraw @a ["",{"text":"["},{"text":"%s","color":"dark_aqua"},{"text":" | "},{"text":"#%s","color":"dark_aqua"},{"text":"] %s"}]""" % (message.author.display_name, message.channel.name, messageText)
