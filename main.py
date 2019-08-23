@@ -50,6 +50,11 @@ def parseChatMessage(messageType, content):
     match = re.search("(?<=<)(.*)(?=>)", content)
     nick = match.group()
     message = content[match.end() + 2:]
+    mentions = re.findall("@.*?#\d{4}", message)
+    for mention in mentions:
+        for member in bot.get_all_members():
+            if f"@{member.name}#{member.discriminator}" == mention:
+                message = message.replace(mention, member.mention)
     return nick, message
 
 @tasks.loop()
