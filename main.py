@@ -40,8 +40,9 @@ def parseLogLine(line):
 def parseChatMessage(messageType, content):
     if messageType != "Server thread/INFO":
         return False
-    match = re.search("(?<=<)(.*)(?=>)", content)
-    nick = match.group()
+    nick = re.search("(?<=<)(.*)(?=>)", content).group()
+    if nick is None:
+        return False
     message = content[match.end() + 2:]
     mentions = re.findall("@.*?#\d{4}", message)
     for mention in mentions:
