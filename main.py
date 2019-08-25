@@ -33,7 +33,7 @@ def toMinecraft(message):
     mcrcon.command(sock, command)
 
 def parseLogLine(line):
-    ret = re.findall("(?<=\[)(.+?)(?=\])", line)
+    ret = re.findall("(?<=\[)(.+?)(?=\])", line)[:2]
     ret.append(re.search("(?<=: )(.*)(?=\n)", line).group())
     return ret
 
