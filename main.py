@@ -40,10 +40,11 @@ def parseLogLine(line):
 def parseChatMessage(messageType, content):
     if messageType != "Server thread/INFO":
         return False
-    nick = re.search("(?<=<)(.*)(?=>)", content).group()
-    if nick is None:
+    nickMatch = re.search("(?<=<)(.*)(?=>)", content)
+    if nickMatch is None:
         return False
-    message = content[match.end() + 2:]
+    nick = nickMatch.group()
+    message = content[nickMatch.end() + 2:]
     mentions = re.findall("@.*?#\d{4}", message)
     for mention in mentions:
         for member in bot.get_all_members():
