@@ -33,16 +33,7 @@ def toMinecraft(message):
     mcrcon.command(sock, command)
 
 def parseLogLine(line):
-    parts = []
-    start = 0
-    for i in range(2):
-        lIndex = line.find('[', start)
-        start = lIndex + 1
-        rIndex = line.find(']', start)
-        start = rIndex + 1
-        parts.append(line[lIndex + 1:rIndex])
-    parts.append(line[start + 2:].replace('\n', ''))
-    return parts
+    return re.findall("(?<=\[)(.+?)(?=\])", line), re.search("(?<=: )(.*)(?=\n)", line).group()
 
 def parseChatMessage(messageType, content):
     if messageType != "Server thread/INFO":
