@@ -60,6 +60,8 @@ def parseEvents(messageType, content):
         return 1, [words[0]]
     elif re.search(".+? left the game", content) != None:
         return 2, [words[0]]
+    elif words[0] == "*":
+        return 3, [words[1], words[2:]]
 
 async def sendToDiscord(message):
     for channelID in config["minecraftToDiscordChannels"]:
@@ -88,6 +90,8 @@ async def toDiscord():
                         await sendToDiscord(f":heavy_plus_sign: **{parameters[0]}** joined.")
                     elif event == 2:
                         await sendToDiscord(f":heavy_minus_sign: **{parameters[0]}** left.")
+                    elif event == 3:
+                        await sendToDiscord(f"**{parameters[0]}** {parameters[1]}")
 
 @bot.event
 async def on_ready():
