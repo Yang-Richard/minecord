@@ -90,10 +90,9 @@ async def on_message(message):
             playersStr += player
             if not player == players[len(players) - 1]:
                 playersStr += ", "
-        statusMessage = f"""**{motd}**
-
-        **Player count:** {query.players.online}/{query.players.max}
-        **Players**: {playersStr}
+        statusMessage = f"""**{motd}**\n
+        **Player count:** {query.players.online}/{query.players.max}{f'''
+        **Players**: {playersStr}''' if query.players.online > 0 else ''}
         **Version:**: {query.software.version}
         **World**: {query.map}
         **Ping:** {server.ping()}ms"""
