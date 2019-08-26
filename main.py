@@ -52,6 +52,19 @@ def parseChatMessage(messageType, content):
                 message = message.replace(mention, member.mention)
     return nick, message
 
+def parseEvents(messageType, content):
+    if messageType != "Server thread/INFO":
+        return False
+    words = content.split(' ')
+    if re.search(".+? joined the game", content) != None:
+        return 1, [words[0]]
+    elif re.search(".+? left the game", content) != None:
+        return 2, [words[0]]
+
+async def sendToDiscord(message):
+    for channelID in config["minecraftToDiscordChannels"]:
+        await bot.get_channel(channelID).send(message)
+
 @tasks.loop()
 async def toDiscord():
     global lastMessage
@@ -63,10 +76,18 @@ async def toDiscord():
             if consoleChannel != -1:
                 await bot.get_channel(consoleChannel).send(lastLine)
             time, messageType, content = parseLogLine(lastLine)
-            if parseChatMessage(messageType, content):
-                nick, message = parseChatMessage(messageType, content)
-                for channelID in config["minecraftToDiscordChannels"]:
-                    await bot.get_channel(channelID).send(f"<{nick}> {message}")
+            chatMessage = parseChatMessage(messageType, content)
+            if chatMessage:
+                nick, message = chatMessage
+                await sendToDiscord(f"<{nick}> {message}")
+            else:
+                events = parseEvents(messageType, content)
+                if events:
+                    event, parameters = events
+                    if event == 1:
+                        await sendToDiscord(f":heavy_plus_sign: **{parameters[0]}** joined.")
+                    elif event == 2:
+                        await sendToDiscord(f":heavy_minus_sign: **{parameters[0]}** left.")
 
 @bot.event
 async def on_ready():
