@@ -22,7 +22,7 @@
 - More options in config.
 - Full configuration tutorial.
 - Fixing bugs.
-- Bedrock support
+- Bedrock support (maybe, see #10).
 
 ## Compability
 
