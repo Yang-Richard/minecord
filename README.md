@@ -26,9 +26,11 @@
 
 ## Compability
 
-Minecraft: Java Edition (Bedrock is WIP) 1.14.x or older with the same log format and with rcon. If you really play on version that is so old it doesn't work, open an issue.
-Python: 3.6 or higher, tested on 3.7.
-discord.py: 1.3.0 (higher should work)
+**Minecraft**: Java Edition (Bedrock is WIP) 1.14.x or older with the same log format and with rcon. If you really play on version that is so old it doesn't work, open an issue.
+
+**Python**: 3.6 or higher, tested on 3.7.
+
+**discord.py**: 1.3.0 (higher should work)
 
 ## How to use
 
