@@ -16,8 +16,12 @@ bot = discord.Client()
 server = MinecraftServer.lookup(f"{config['servers'][0]['IP']}:{config['servers'][0]['query']}")
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((config['servers'][0]['IP'], config['servers'][0]['rcon']['port']))
-mcrcon.login(sock, config['servers'][0]['rcon']['password'])
+
+def connect():
+    sock.connect((config['servers'][0]['IP'], config['servers'][0]['rcon']['port']))
+    mcrcon.login(sock, config['servers'][0]['rcon']['password'])
+
+connect()
 
 lastMessage = None
 
@@ -30,7 +34,10 @@ def toMinecraft(message):
     for attachment in message.attachments:
         messageText += f" {attachment.url}"
     command = """tellraw @a ["",{"text":"["},{"text":"%s","color":"dark_aqua"},{"text":" | "},{"text":"#%s","color":"dark_aqua"},{"text":"] %s"}]""" % (message.author.display_name, message.channel.name, messageText)
-    mcrcon.command(sock, command)
+    try:
+        mcrcon.command(sock, command)
+    except:
+        connect()
 
 def parseLogLine(line):
     ret = re.findall("(?<=\[)(.+?)(?=\])", line)[:2]
